@@ -1,5 +1,6 @@
 abstract class AppRoutes {
-  static const String loginScreen = "/login";
+  static const String loginScreen = "/login_screen";
+  static const String registerScreen = "/register_screen";
   static const String splashScreen = "/splash_screen";
   static const String onBoardingScreen = "/onboarding_screen";
   static const String homeScreen = "/home_screen";
