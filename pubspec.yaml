@@ -41,6 +41,9 @@ dependencies:
   animate_do: ^4.2.0
   smooth_page_indicator: ^1.2.1
   flutter_launcher_icons: ^0.14.4
+  flutter_easyloading: ^3.0.5
+  awesome_dialog: ^3.3.0
+  toastification: ^3.0.3
 
 dev_dependencies:
   flutter_test:
