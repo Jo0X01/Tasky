@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "81599300444",
+    "project_id": "nti-flut-tasky-app",
+    "storage_bucket": "nti-flut-tasky-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81599300444:android:3c81af89bb6fd0c9b83799",
+        "android_client_info": {
+          "package_name": "com.example.tasky"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH0IlPhAxKX14m3Q-vng91rK5n7xj3xH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81599300444:android:0619a54cdc29df67b83799",
+        "android_client_info": {
+          "package_name": "com.example.tasky_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH0IlPhAxKX14m3Q-vng91rK5n7xj3xH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
