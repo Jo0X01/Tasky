@@ -1,22 +1,22 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toastification/toastification.dart';
 
 abstract class AppDialog {
   static void showLoading(BuildContext context) {
-    EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.chasingDots;
-    EasyLoading.instance.indicatorColor = Color(0xff5F33E1);
-    EasyLoading.instance.maskColor = Color(0xff5F33E1);
-    EasyLoading.instance.backgroundColor = Colors.black;
-    EasyLoading.instance.indicatorColor = Color(0xff5F33E1);
-    EasyLoading.instance.textColor = Colors.white;
-    EasyLoading.instance.dismissOnTap = false;
-    EasyLoading.instance.contentPadding = EdgeInsets.all(25);
-    EasyLoading.instance.loadingStyle = EasyLoadingStyle.custom;
-    EasyLoading.instance.userInteractions = false;
-    EasyLoading.show(status: 'Loading...');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const Center(
+            child: SpinKitRotatingCircle(color: Color.fromARGB(255, 167, 11, 11), size: 50.0),
+          );
+        },
+      );
+    });
   }
 
   static void showErrorDialog(BuildContext context, String msg) {
@@ -24,7 +24,7 @@ abstract class AppDialog {
       context: context,
       title: "Error",
       animType: AnimType.scale,
-      headerAnimationLoop: false,
+      // headerAnimationLoop: false,
       keyboardAware: false,
       dismissOnTouchOutside: false,
       dialogType: DialogType.error,
@@ -55,9 +55,7 @@ abstract class AppDialog {
       primaryColor: Colors.green,
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
-      borderSide: BorderSide(
-        color: Color(0xff5F33E1)
-      ),
+      borderSide: BorderSide(color: Color(0xff5F33E1)),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       borderRadius: BorderRadius.circular(12),
@@ -86,6 +84,7 @@ abstract class AppDialog {
   }
 
   static void hide(BuildContext context) {
-    EasyLoading.dismiss();
+    // CustomLoading.dismiss(context);
+    Navigator.pop(context);
   }
 }
