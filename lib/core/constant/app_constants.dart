@@ -1,10 +1,10 @@
 abstract class AppRoutes {
-  static const String loginScreen = "/login_screen";
-  static const String registerScreen = "/register_screen";
-  static const String splashScreen = "/splash_screen";
-  static const String onBoardingScreen = "/onboarding_screen";
-  static const String homeScreen = "/home_screen";
-
+  static const String loginScreen = "/LoginScreen";
+  static const String registerScreen = "/RegisterScreen";
+  static const String splashScreen = "/SplashScreen";
+  static const String onBoardingScreen = "/OnBoardingScreen";
+  static const String homeScreen = "/HomeScreen";
+  static const String tasksEdit = "/TaskEdit";
 }
 
 abstract class AssetConstant {
@@ -18,7 +18,10 @@ abstract class AssetConstant {
   static const String homeImage = "assets/images/home-image.png"; 
 }
 
-
+abstract class FirebaseCollectionConstant {
+  static const String userModelCollectionName = "Users";
+  static const String taskModelCollectionName = "Tasks";
+}
 abstract class FirebaseAppConstantAssetsFirestore {
   static const String collectionName = "AppConstantContent";
 }

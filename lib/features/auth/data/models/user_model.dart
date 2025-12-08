@@ -1,5 +1,8 @@
+import 'package:tasky/core/constant/app_constants.dart';
+
 class UserModel {
-  static const String collectionName = 'Users';
+  static const String collectionName = FirebaseCollectionConstant.userModelCollectionName;
+
   String? userName;
   String? id;
   String? email;
