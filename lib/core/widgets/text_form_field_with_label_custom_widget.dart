@@ -9,6 +9,8 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?) validator;
   final String? labelText;
+  final Widget? beforeIconAsset;
+  final void Function(String)? onChanged;
   
   TextFormFieldWithLabelCustomWidget({
     required this.controller,
@@ -18,7 +20,9 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.isPassword = false,
-    super.key
+    this.beforeIconAsset,
+    this.onChanged,
+    super.key,
   });
 
   @override
@@ -68,7 +72,7 @@ class _TextFormFieldWithLabelCustomWidgetState extends State<TextFormFieldWithLa
                     },
                   )
                 : null,
-        
+            prefixIcon: widget.beforeIconAsset,
             contentPadding: const EdgeInsets.all(15),
             enabledBorder: outlineInputBorder(
               color: Color(0xffBABABA),
@@ -94,6 +98,7 @@ class _TextFormFieldWithLabelCustomWidgetState extends State<TextFormFieldWithLa
           keyboardType: widget.keyboardType,
           controller: widget.controller,
           validator: widget.validator,
+          onChanged: widget.onChanged,
         ),
       ],
     );

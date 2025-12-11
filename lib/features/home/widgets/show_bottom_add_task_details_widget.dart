@@ -1,11 +1,11 @@
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/core/constant/app_constants.dart';
-import 'package:tasky/core/utils/app_dialog.dart';
+import 'package:tasky/core/utils/app_helper.dart';
 import 'package:tasky/core/utils/app_input_validator.dart';
 import 'package:tasky/core/widgets/text_form_field_with_label_custom_widget.dart';
-import 'package:tasky/features/home/data/model/task_model.dart';
-import 'package:tasky/features/home/widgets/priority_alert_dialog_widget.dart';
+import 'package:tasky/core/models/firebase/task_model.dart';
+import 'package:tasky/core/widgets/priority_alert_dialog_widget.dart';
 
 class ShowBottomAddTaskDetailsWidget extends StatefulWidget {
   const ShowBottomAddTaskDetailsWidget({
@@ -62,7 +62,7 @@ class _ShowBottomAddTaskDetailsWidgetState
                 children: [
                   _clickableIconWithLabel(
                     AssetConstant.timerIcon,
-                    "${_taskDate.day}/${_taskDate.month}/${_taskDate.year}",
+                    AppHelper.getCleanDate(_taskDate.millisecondsSinceEpoch),
                     _onPickDatePressed,
                   ),
                   _clickableIconWithLabel(
@@ -123,7 +123,6 @@ class _ShowBottomAddTaskDetailsWidgetState
 
   void _onSendPressed() async {
     if (taskFormKey.currentState!.validate()) {
-      AppDialog.showLoading(context);
       final task = TaskModel(
         name: _taskNameController.text,
         description: _taskDescriptionController.text,
@@ -131,6 +130,7 @@ class _ShowBottomAddTaskDetailsWidgetState
         priority: _taskPriority,
         isCompleted: false,
       );
+      Navigator.of(context).pop();
       widget.onSendPressed(task);
     }
   }

@@ -7,5 +7,9 @@ abstract class AppHelper {
       ''
     );
   }
+  static String getCleanDate(int? millisecondsSinceEpoch){
+    final date = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch);
+    return "${date.day} / ${date.month} / ${date.year}";
+  }
 
 }

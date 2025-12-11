@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:tasky/features/home/widgets/task_priority_index_custom_widget.dart';
+import 'package:tasky/core/widgets/task_priority_index_custom_widget.dart';
 
 class PriorityAlertDialog extends StatelessWidget {
   PriorityAlertDialog({
