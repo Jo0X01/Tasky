@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void getDataThenNavigate() async {
     final onboardingData = await SplashFirebaseDatabase.getOnboardingData();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     switch (onboardingData) {
       case FBResultSuccess<List<OnboardingModel>>():
         Navigator.of(context).pushReplacementNamed(

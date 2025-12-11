@@ -1,22 +1,42 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:toastification/toastification.dart';
 
 abstract class AppDialog {
+  static void areYouSureDialog(
+    BuildContext context,
+    String msg,
+    void Function() btnOkOnPress,
+  ) {
+    AwesomeDialog(
+      context: context,
+      title: "Are You Sure ?",
+      animType: AnimType.scale,
+      keyboardAware: false,
+      dismissOnTouchOutside: false,
+      dialogType: DialogType.question,
+      reverseBtnOrder: true,
+      desc: msg,
+      btnCancelColor: Color(0xff5F33E1),
+      btnCancelOnPress: () {},
+      btnOkOnPress: btnOkOnPress,
+    ).show();
+  }
+
   static void showLoading(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return const Center(
-            child: SpinKitRotatingCircle(color: Color.fromARGB(255, 167, 11, 11), size: 50.0),
-          );
-        },
-      );
-    });
+    EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.chasingDots;
+    EasyLoading.instance.indicatorColor = Color(0xff5F33E1);
+    EasyLoading.instance.maskColor = Color(0xff5F33E1);
+    EasyLoading.instance.backgroundColor = Colors.black;
+    EasyLoading.instance.indicatorColor = Color(0xff5F33E1);
+    EasyLoading.instance.textColor = Colors.white;
+    EasyLoading.instance.dismissOnTap = false;
+    EasyLoading.instance.contentPadding = EdgeInsets.all(25);
+    EasyLoading.instance.loadingStyle = EasyLoadingStyle.custom;
+    EasyLoading.instance.userInteractions = false;
+    EasyLoading.show(status: 'Loading...');
   }
 
   static void showErrorDialog(BuildContext context, String msg) {
@@ -46,8 +66,11 @@ abstract class AppDialog {
       type: ToastificationType.success,
       style: ToastificationStyle.simple,
       autoCloseDuration: const Duration(seconds: 5),
-      title: Text(msg),
-      alignment: Alignment.bottomCenter,
+      title: Text(
+        msg,
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      ),
+      alignment: Alignment.topCenter,
       direction: TextDirection.ltr,
       animationDuration: const Duration(milliseconds: 300),
       icon: const Icon(Icons.check),
@@ -72,19 +95,10 @@ abstract class AppDialog {
       pauseOnHover: true,
       dragToClose: true,
       applyBlurEffect: true,
-      callbacks: ToastificationCallbacks(
-        onTap: (toastItem) => print('Toast ${toastItem.id} tapped'),
-        onCloseButtonTap: (toastItem) =>
-            print('Toast ${toastItem.id} close button tapped'),
-        onAutoCompleteCompleted: (toastItem) =>
-            print('Toast ${toastItem.id} auto complete completed'),
-        onDismissed: (toastItem) => print('Toast ${toastItem.id} dismissed'),
-      ),
     );
   }
 
   static void hide(BuildContext context) {
-    // CustomLoading.dismiss(context);
-    Navigator.pop(context);
+    EasyLoading.dismiss();
   }
 }

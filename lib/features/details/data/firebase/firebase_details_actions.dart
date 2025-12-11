@@ -4,7 +4,7 @@ import 'package:tasky/core/constant/app_constants.dart';
 import 'package:tasky/core/models/firebase/firebase_result.dart';
 import 'package:tasky/core/models/firebase/task_model.dart';
 
-abstract class FirebaseTaskActions {
+abstract class FirebaseDetailsActions {
   static CollectionReference<TaskModel> get getCollection => FirebaseFirestore
       .instance
       .collection(FirebaseCollectionConstant.userModelCollectionName)
@@ -16,26 +16,6 @@ abstract class FirebaseTaskActions {
         toFirestore: (userModel, options) => TaskModel.toJson(userModel),
       );
 
-  static ResultResponse<TaskModel> addTask(TaskModel taskModel) async {
-    try {
-      final doc = getCollection.doc(taskModel.id);
-      taskModel.id = doc.id;
-      await doc.set(taskModel);
-      return FBResultSuccess<TaskModel>(taskModel);
-    } catch (e) {
-      return FBResultError(e.toString());
-    }
-  }
-
-  static ResultResponse<List<TaskModel>> getTasks() async {
-    try {
-      final result = await getCollection.get();
-      final tasks = result.docs.map<TaskModel>((ele) => ele.data()).toList();
-      return FBResultSuccess(tasks);
-    } catch (e) {
-      return FBResultError(e.toString());
-    }
-  }
 
   static ResultResponse<void> delTask(String id) async {
     try {

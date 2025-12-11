@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/constant/app_constants.dart';
 import 'package:tasky/core/models/firebase/firebase_result.dart';
 import 'package:tasky/core/utils/app_dialog.dart';
+import 'package:tasky/core/utils/app_helper.dart';
+import 'package:tasky/core/utils/app_input_validator.dart';
+import 'package:tasky/core/widgets/text_form_field_with_label_custom_widget.dart';
 import 'package:tasky/features/auth/data/models/user_model.dart';
 import 'package:tasky/features/home/data/firebase/firebase_task_actions.dart';
 import 'package:tasky/features/home/data/firebase/firebase_user_actions.dart';
-import 'package:tasky/features/home/data/model/task_model.dart';
+import 'package:tasky/core/models/firebase/task_model.dart';
 import 'package:tasky/features/home/widgets/show_bottom_add_task_details_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,12 +47,45 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: tasks.isEmpty
-          ? _emptyListWidget
-          : ListView.builder(
-              itemCount: tasks.length,
-              itemBuilder: (context, index) => _itemListWidget(index),
+      body: Padding(
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 14, vertical: 8),
+        child: Column(
+          spacing: 10,
+          children: [
+            TextFormFieldWithLabelCustomWidget(
+              beforeIconAsset: Image.asset(AssetConstant.searchIcon),
+              controller: searchTextController,
+              validator: AppInputValidator.validateName,
+              onChanged: _onSearchType,
+              hintText: "Search",
             ),
+            Row(
+              spacing: 10,
+              children: [
+                _itemFilterWidget(
+                  "Compeleted",
+                  filterByCompeleted,
+                  _onFilterByCompeleted,
+                ),
+                _itemFilterWidget(
+                  "Not Compeleted",
+                  filterByNotCompeleted,
+                  _onFilterByNotCompeleted,
+                ),
+              ],
+            ),
+            Expanded(
+              child: filteredTasks.isEmpty
+                  ? _emptyListWidget
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: filteredTasks.length,
+                      itemBuilder: (context, index) => _itemListWidget(index),
+                    ),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onAddTaskPressed,
         backgroundColor: Color(0xff24252C),
@@ -59,14 +95,48 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _onFilterByNotCompeleted() {
+    filterByNotCompeleted = !filterByNotCompeleted;
+    _onSearchType();
+  }
+
+  void _onFilterByCompeleted() {
+    filterByCompeleted = !filterByCompeleted;
+    _onSearchType();
+  }
+
+
+  Widget _itemFilterWidget(String title, bool addIcon, void Function() onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        decoration: BoxDecoration(
+          // color: Color(0xff5F33E1),
+          border: BoxBorder.all(color: Color(0xff5F33E1)),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          spacing: 5,
+          children: [
+            Icon(addIcon ? Icons.done : Icons.close, size: 16),
+            Text(
+              title,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _itemListWidget(int index) {
-    final task = tasks[index];
-    final date = DateTime.fromMillisecondsSinceEpoch(task.date ?? 0);
+    final task = filteredTasks[index];
     return GestureDetector(
       onTap: () => _onItemTapped(task),
       child: Container(
         alignment: Alignment.topLeft,
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Color(0xff6E6A7C)),
@@ -74,9 +144,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Row(
           children: [
-            Radio(
-              side: BorderSide(color: Color(0xff5F33E1), width: 2),
-              value: task.isCompleted,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+              child: Icon(
+                task.isCompleted ?? false
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
+                color: Color(0xff5F33E1),
+                size: 24,
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -92,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Text(
-                  "${date.day}/${date.month}/${date.year}",
+                  AppHelper.getCleanDate(task.date),
                   style: TextStyle(
                     color: Color(0xff6E6A7C),
                     fontSize: 14,
@@ -130,37 +206,67 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget get _emptyListWidget => SizedBox(
-    width: double.infinity,
-    child: Column(
-      spacing: 10,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(height: 80),
-        Image.asset(AssetConstant.homeImage, fit: BoxFit.contain),
-        Text(
-          "What do you want to do today?",
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
-            color: Color(0xDE24252C),
+  Widget get _emptyListWidget => SingleChildScrollView(
+    child: SizedBox(
+      // width: double.infinity,
+      child: Column(
+        spacing: 10,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(height: 80),
+          Image.asset(AssetConstant.homeImage, fit: BoxFit.contain),
+          Text(
+            "What do you want to do today?",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 20,
+              color: Color(0xDE24252C),
+            ),
           ),
-        ),
-        Text(
-          "Tap + to add your tasks",
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 16,
-            color: Color(0xFF404147),
+          Text(
+            "Tap + to add your tasks",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+              color: Color(0xFF404147),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 
-  void _onItemTapped(TaskModel task){
-    Navigator.of(context).pushNamed(AppRoutes.tasksEdit,arguments: task);
+  void _onItemTapped(TaskModel task) {
+    Navigator.of(context).pushNamed(AppRoutes.detailScreen, arguments: task);
   }
+
+  void _onSearchType([String? value]) {
+    value ??= searchTextController.text;
+    final query = value!.toLowerCase();
+
+    setState(() {
+      filteredTasks = tasks.where((model) {
+        final name = model.name?.toLowerCase();
+        final desc = model.description?.toLowerCase();
+        if (name == null || desc == null) return false;
+
+        final bool isCompleted = model.isCompleted ?? false;
+        if (!filterByCompeleted && !filterByNotCompeleted) {
+          return false;
+        }
+        if (query.isNotEmpty && !(name.contains(query) || desc.contains(query))) {
+          return false;
+        }
+        if(filterByCompeleted && filterByNotCompeleted){
+          return true;
+        }
+        if (filterByCompeleted && !isCompleted) return false;
+        if (filterByNotCompeleted && isCompleted) return false;
+        return true;
+      }).toList();
+    });
+  }
+
   void _onAddTaskPressed() {
     showModalBottomSheet(
       context: context,
@@ -203,11 +309,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<TaskModel> tasks = [];
+  List<TaskModel> filteredTasks = [];
+
+  late final searchTextController;
+  late bool filterByCompeleted;
+  late bool filterByNotCompeleted;
 
   @override
   void initState() {
     super.initState();
-    getData();
+    filterByCompeleted = true;
+    filterByNotCompeleted = true;
+    searchTextController = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => getData());
   }
 
   void getData() async {
@@ -216,8 +330,10 @@ class _HomeScreenState extends State<HomeScreen> {
     AppDialog.hide(context);
     switch (result) {
       case FBResultSuccess<List<TaskModel>>():
-        tasks = result.data;
-        setState(() {});
+        setState(() {
+          tasks = result.data;
+          filteredTasks = tasks;
+        });
       case FBResultError<List<TaskModel>>():
         AppDialog.showErrorDialog(context, result.errorMessage);
     }
@@ -227,5 +343,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     super.dispose();
     tasks = [];
+    filteredTasks = [];
   }
 }

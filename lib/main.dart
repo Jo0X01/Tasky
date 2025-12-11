@@ -1,9 +1,11 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tasky/core/constant/app_constants.dart';
 import 'package:tasky/features/auth/view/login_screen.dart';
 import 'package:tasky/features/auth/view/register_screen.dart';
+import 'package:tasky/features/details/view/details_screen.dart';
 import 'package:tasky/features/home/view/home_screen.dart';
 import 'package:tasky/features/splash/view/onboarding_screen.dart';
 import 'package:tasky/features/splash/view/splash_screen.dart';
@@ -24,6 +26,7 @@ class TaskyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
+      builder: EasyLoading.init(),
       initialRoute: AppRoutes.splashScreen,
       routes: {
         AppRoutes.onBoardingScreen: (context) => OnboardingScreen(),
@@ -31,7 +34,7 @@ class TaskyApp extends StatelessWidget {
         AppRoutes.loginScreen: (context) => LoginScreen(),
         AppRoutes.registerScreen: (context) => RegisterScreen(),
         AppRoutes.homeScreen: (context) => HomeScreen(),
-        // AppRoutes.tasksEdit: (context) => ,
+        AppRoutes.detailScreen: (context) => DetailsScreen()
       },
     );
   }
