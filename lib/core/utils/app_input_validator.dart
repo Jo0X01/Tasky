@@ -1,9 +1,8 @@
-const String emailRegexString =
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-const String passwordRegexString = r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@]{6,}$';
-const String usernameRegexString = r'^[a-zA-Z0-9,.-]+$';
-
 abstract class AppInputValidator {
+  static const String emailRegexString =
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+  static const String passwordRegexString = r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@]{6,}$';
+  static const String usernameRegexString = r'^[a-zA-Z0-9,.-]+$';
   static String? validateEmail(String? val) {
     final RegExp emailRegex = RegExp(emailRegexString);
     if (val == null || val.trim().isEmpty) {

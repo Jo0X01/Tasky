@@ -112,17 +112,21 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         decoration: BoxDecoration(
-          // color: Color(0xff5F33E1),
+          color: addIcon? Color(0xff5F33E1):null,
           border: BoxBorder.all(color: Color(0xff5F33E1)),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Row(
           spacing: 5,
           children: [
-            Icon(addIcon ? Icons.done : Icons.close, size: 16),
+            Icon(addIcon ? Icons.done : Icons.close, color: addIcon ? Colors.white:null,size: 16),
             Text(
               title,
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                color: addIcon ? Colors.white:null,
+                fontSize: 12,
+                fontWeight: FontWeight.w400
+              ),
             ),
           ],
         ),

@@ -36,7 +36,7 @@ class _ShowBottomAddTaskDetailsWidgetState
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
+            spacing: 15,
             children: [
               Text(
                 "Add Task",
@@ -56,7 +56,6 @@ class _ShowBottomAddTaskDetailsWidgetState
                 validator: AppInputValidator.validateName,
                 hintText: "Enter Task Description",
               ),
-              SizedBox(height: 10),
               Row(
                 spacing: 12,
                 children: [
@@ -82,7 +81,7 @@ class _ShowBottomAddTaskDetailsWidgetState
                   ),
                 ],
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 25),
             ],
           ),
         ),
