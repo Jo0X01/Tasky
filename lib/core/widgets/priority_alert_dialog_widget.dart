@@ -22,36 +22,38 @@ class PriorityAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
-        child: Column(
-          spacing: 10,
-          children: [
-            Text(
-              "Task Priority",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-                color: Color(0xDE24252C),
+      title: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
+          child: Column(
+            spacing: 10,
+            children: [
+              Text(
+                "Task Priority",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  color: Color(0xDE24252C),
+                ),
               ),
-            ),
-            Divider(color: Color(0xff979797)),
-            Wrap(
-              children: priorityIndexs
-                  .map(
-                    (index) => TaskPriorityIndexCustomWidget(
-                      index: index,
-                      isSelected: index == taskPriority,
-                      onSelected: (index) {
-                        onPrioritySelected(index);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
+              Divider(color: Color(0xff979797)),
+              Wrap(
+                children: priorityIndexs
+                    .map(
+                      (index) => TaskPriorityIndexCustomWidget(
+                        index: index,
+                        isSelected: index == taskPriority,
+                        onSelected: (index) {
+                          onPrioritySelected(index);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
