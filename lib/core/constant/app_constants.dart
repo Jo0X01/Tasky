@@ -25,6 +25,7 @@ abstract class FirebaseCollectionConstant {
   static const String userModelCollectionName = "Users";
   static const String taskModelCollectionName = "Tasks";
 }
+
 abstract class FirebaseAppConstantAssetsFirestore {
   static const String collectionName = "AppConstantContent";
 }

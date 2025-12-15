@@ -26,8 +26,6 @@ class OnboardingModel {
       'image': imageDataBase64String
     };
   Uint8List? imageConvertFromBase64() {
-    if(imageDataBase64String == null) return null;
-    return base64Decode(AppHelper.cleanBase64(imageDataBase64String!));
+    return imageDataBase64String == null ? null:base64Decode(AppHelper.cleanBase64(imageDataBase64String!));
   }
 }
-// SplashScreenData

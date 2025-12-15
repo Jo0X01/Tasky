@@ -41,6 +41,4 @@ abstract class FirebaseDatabaseUser {
       return FBResultError(e.toString());
     }
   }
-
-  
 }

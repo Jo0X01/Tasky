@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Row(
           spacing: 5,
           children: [
-            Icon(addIcon ? Icons.done : Icons.close, color: addIcon ? Colors.white:null,size: 16),
+            Icon(addIcon ? Icons.done : Icons.close, color: addIcon ? Colors.white:null, size: 16),
             Text(
               title,
               style: TextStyle(
