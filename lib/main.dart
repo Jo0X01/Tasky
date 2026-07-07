@@ -8,6 +8,8 @@ import 'package:tasky/features/auth/cubits/auth_cubit/auth_cubit.dart';
 import 'package:tasky/features/auth/view/login_screen.dart';
 import 'package:tasky/features/auth/view/register_screen.dart';
 import 'package:tasky/features/details/view/details_screen.dart';
+import 'package:tasky/features/home/cubits/home_item_cubit/home_item_cubit.dart';
+import 'package:tasky/features/home/cubits/logout_cubit/logout_cubit.dart';
 import 'package:tasky/features/home/view/home_screen.dart';
 import 'package:tasky/features/splash/cubits/splash_cubit/splash_cubit.dart';
 import 'package:tasky/features/splash/view/onboarding_screen.dart';
@@ -25,6 +27,8 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => SplashCubit()),
+        BlocProvider(create: (context) => HomeItemCubit()),
+        BlocProvider(create: (context) => LogoutCubit()),
       ],
       child: const TaskyApp(),
     ),
