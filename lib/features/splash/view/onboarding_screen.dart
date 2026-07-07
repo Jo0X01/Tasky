@@ -19,9 +19,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   late List<OnboardingModel> onboardData;
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     onboardData =
         ModalRoute.of(context)!.settings.arguments as List<OnboardingModel>;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

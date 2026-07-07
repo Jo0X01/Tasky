@@ -27,11 +27,14 @@ abstract class FirebaseTaskActions {
     }
   }
 
-  static ResultResponse<List<TaskModel>> getTasks() async {
+  static ResultResponse<List<TaskModel>> getTasks([bool Function(TaskModel)? onFilter]) async {
     try {
       final result = await getCollection.get();
-      final tasks = result.docs.map<TaskModel>((ele) => ele.data()).toList();
-      return FBResultSuccess(tasks);
+      var tasks = result.docs.map<TaskModel>((ele) => ele.data());
+      if(onFilter != null){
+        tasks = tasks.where(onFilter);
+      }
+      return FBResultSuccess(tasks.toList());
     } catch (e) {
       return FBResultError(e.toString());
     }

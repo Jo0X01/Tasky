@@ -39,20 +39,25 @@ abstract class AppDialog {
     EasyLoading.show(status: 'Loading...');
   }
 
-  static void showErrorDialog(BuildContext context, String msg) {
+  static void showErrorDialog(
+    BuildContext context,
+    String msg, {
+    VoidCallback? onDismiss,
+    String? cancelText,
+  }) {
     AwesomeDialog(
       context: context,
       title: "Error",
       animType: AnimType.scale,
       // headerAnimationLoop: false,
       keyboardAware: false,
-      dismissOnTouchOutside: false,
+      dismissOnTouchOutside: true,
       dialogType: DialogType.error,
       reverseBtnOrder: true,
       desc: msg,
-      btnCancelText: "Close",
+      btnCancelText: cancelText ?? "Close",
       btnCancelColor: Color(0xff5F33E1),
-      btnCancelOnPress: () {},
+      btnCancelOnPress: onDismiss,
     ).show();
   }
 

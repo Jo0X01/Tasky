@@ -6,14 +6,14 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
   final String? hintText;
   bool obscureText;
   final bool isPassword;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? Function(String?) validator;
   final String? labelText;
   final Widget? beforeIconAsset;
   final void Function(String)? onChanged;
   
   TextFormFieldWithLabelCustomWidget({
-    required this.controller,
+    this.controller,
     required this.validator,
     this.labelText,
     this.hintText,

@@ -1,7 +1,8 @@
 import 'package:tasky/core/constant/app_constants.dart';
 
 class TaskModel {
-  static const String collectionName = FirebaseCollectionConstant.taskModelCollectionName;
+  static const String collectionName =
+      FirebaseCollectionConstant.taskModelCollectionName;
 
   TaskModel({
     this.id,
@@ -36,5 +37,23 @@ class TaskModel {
       'date': taskModel.date,
       'isCompleted': taskModel.isCompleted,
     };
+  }
+
+  TaskModel copyWith({
+    String? id,
+    String? name,
+    String? description,
+    int? priority,
+    int? date,
+    bool? isCompleted,
+  }) {
+    return TaskModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      priority: priority ?? this.priority,
+      date: date ?? this.date,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
   }
 }

@@ -92,11 +92,11 @@ class _ShowBottomAddTaskDetailsWidgetState
   void _onPickDatePressed() async {
     final selectedDate = await showDatePickerDialog(
       context: context,
-      initialDate: DateTime.now(),
+      // initialDate: DateTime.now(),
       selectedDate: _taskDate,
       minDate: DateTime.now(),
       maxDate: DateTime(2050),
-      centerLeadingDate: true,
+      // centerLeadingDate: true,
     );
     if (selectedDate != null) {
       setState(() {

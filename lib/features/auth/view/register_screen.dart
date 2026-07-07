@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/constant/app_constants.dart';
-import 'package:tasky/core/models/firebase/firebase_result.dart';
 import 'package:tasky/core/utils/app_dialog.dart';
 import 'package:tasky/core/utils/app_input_validator.dart';
-import 'package:tasky/core/widgets/text_form_field_with_label_custom_widget.dart' show TextFormFieldWithLabelCustomWidget;
-import 'package:tasky/features/auth/data/firebase/firebase_database_user.dart';
-import 'package:tasky/features/auth/data/models/user_model.dart';
+import 'package:tasky/core/widgets/text_form_field_with_label_custom_widget.dart'
+    show TextFormFieldWithLabelCustomWidget;
+import 'package:tasky/features/auth/cubits/auth_cubit/auth_cubit.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -79,7 +79,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 75),
               MaterialButton(
-                onPressed: _onRegisterPressed,
+                onPressed: () {
+                  if (loginFormKey.currentState!.validate()) {
+                    BlocProvider.of<AuthCubit>(context).register(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      username: usernameController.text,
+                    );
+                  }
+                },
                 height: 48,
                 color: Color(0xff5F33E1),
                 textColor: Color(0xffffffff),
@@ -88,13 +96,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
-                child: Text(
-                  "Register",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xffffffff),
-                  ),
+                child: BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthRegisterLoadingState) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text('Connecting....')));
+                    } else if (state is AuthRegisterFailureState) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      AppDialog.showErrorDialog(context, state.msg);
+                    } else if (state is AuthRegisterSuccessState) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      emailController.clear();
+                      passwordController.clear();
+                      confirmPasswordController.clear();
+                      usernameController.clear();
+                      AppDialog.showSuccessDialog(
+                        context,
+                        "Registration successful",
+                        onDismiss: () => Navigator.of(
+                          context,
+                        ).pushReplacementNamed(AppRoutes.loginScreen),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is AuthLoginLoadingState) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                        ),
+                      );
+                    }
+                    return Text(
+                      "Register",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xffffffff),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -129,35 +172,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _onRegisterPressed() async {
-    if (loginFormKey.currentState!.validate()) {
-      AppDialog.showLoading(context);
-      final result = await FirebaseDatabaseUser.registerUser(
-        UserModel(
-          email: emailController.text,
-          password: passwordController.text,
-          userName: usernameController.text,
-        ),
-      );
-      AppDialog.hide(context);
-      switch (result) {
-        case FBResultSuccess<UserModel>():
-          emailController.clear();
-          passwordController.clear();
-          confirmPasswordController.clear();
-          usernameController.clear();
-          AppDialog.showSuccessDialog(
-            context,
-            "Registration successful",
-            onDismiss: () => Navigator.of(
-              context,
-            ).pushReplacementNamed(
-              AppRoutes.loginScreen
-            ),
-          );
-        case FBResultError<UserModel>():
-          AppDialog.showErrorDialog(context, result.errorMessage);
-      }
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    usernameController.dispose();
   }
 }

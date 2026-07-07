@@ -20,8 +20,8 @@ abstract class SplashFirebaseDatabase {
           .get();
       List<OnboardingModel> onboardingList =
           result[OnboardingModel.indicatorCollectionName]
-          .map<OnboardingModel>((e) => OnboardingModel.fromJson(e))
-          .toList();
+              .map<OnboardingModel>((e) => OnboardingModel.fromJson(e))
+              .toList();
       return FBResultSuccess(onboardingList);
     } catch (e) {
       return FBResultError(e.toString());
