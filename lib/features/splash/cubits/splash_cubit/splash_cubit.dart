@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
 import 'package:tasky/core/models/firebase/firebase_result.dart';
 import 'package:tasky/features/splash/data/firebase/splash_firebase_database.dart';
 import 'package:tasky/features/splash/data/models/onboarding_model.dart';

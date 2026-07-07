@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/models/firebase/firebase_result.dart';
 import 'package:tasky/features/auth/data/firebase/firebase_database_user.dart';
 import 'package:tasky/features/auth/data/models/user_model.dart';
