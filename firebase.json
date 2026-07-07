@@ -1,0 +1,22 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "nti-flut-tasky-app",
+                    "appId": "1:81599300444:android:3c81af89bb6fd0c9b83799",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "nti-flut-tasky-app",
+                    "configurations": {
+                        "android": "1:81599300444:android:3c81af89bb6fd0c9b83799",
+                        "ios": "1:81599300444:ios:0a24eb90eb27f482b83799"
+                    }
+                }
+            }
+        }
+    }
+}
