@@ -129,6 +129,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       taskModel.description = _taskDescriptionController.text;
       AppDialog.showLoading(context);
       final result = await FirebaseDetailsActions.editTask(taskModel);
+      if(!mounted) return;
       AppDialog.hide(context);
       switch (result) {
         case FBResultSuccess():
@@ -151,11 +152,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
       );
     final selectedDate = await showDatePickerDialog(
       context: context,
-      initialDate: DateTime.now(),
+      // initialDate: DateTime.now(),
       selectedDate: sdate,
       minDate: sdate,
-      maxDate: DateTime(2050),
-      centerLeadingDate: true,
+      maxDate: DateTime(2050)
+      // centerLeadingDate: true,
     );
     if (selectedDate != null) {
       setState(() {
