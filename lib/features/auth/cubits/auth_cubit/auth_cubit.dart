@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:tasky/core/models/firebase/firebase_result.dart';
 import 'package:tasky/features/auth/data/firebase/firebase_database_user.dart';
 import 'package:tasky/features/auth/data/models/user_model.dart';
